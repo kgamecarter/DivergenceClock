@@ -62,7 +62,7 @@ void worldLine_onExit()
 void initialWorldLine()
 {
     byte i, tmp, rnd;
-    if (tableIndex <= 6) // °¨¤W§ó·s·|µo¥Í¤£©ú¿ù»~
+    if (tableIndex <= 6) // é¦¬ä¸Šæ›´æ–°æœƒç™¼ç”Ÿä¸æ˜ŽéŒ¯èª¤
         return;
     worldLine[6] = NONUM | RDOT;
     if (twinkleCount == TVMAX-1) //TV last
@@ -70,7 +70,7 @@ void initialWorldLine()
         for (i = 0; i < 8; i++)
             swapTable[i] = 7 - i;
     }
-    else // ¤@¯ë
+    else // ä¸€èˆ¬
     {
         for (i = 0; i < 8; i++)
             swapTable[i] = i;

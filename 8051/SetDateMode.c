@@ -2,7 +2,7 @@
 #include "SetDateMode.h"
 #include "DateMode.h"
 #include "BCDCompute.h"
-    	   
+           
 void setDateMode_onEnter(); 
 void setDateMode_onExit();
 void scanSetDate();
@@ -29,7 +29,7 @@ void setDateMode_onEnter()
 
 void setDateMode_onExit()
 {
-    DS1307_setBytes(DS1307_DATE, 3, &date.date); // ­Ó§O¼g¤JÁ×§K°Ê¨ì®É¶¡
+    DS1307_setBytes(DS1307_DATE, 3, &date.date); // å€‹åˆ¥å¯«å…¥é¿å…å‹•åˆ°æ™‚é–“
     cursorPosition = 0xFF;
 }
 
@@ -43,7 +43,7 @@ void scanSetDate()
     nextStr[5] = date.year >> 4;
     nextStr[6] = 0;
     nextStr[7] = 2;
-    if (20 <= twinkleCount && twinkleCount < 40) // ¦b¥Ø¼Ð¤W°{Ã{
+    if (20 <= twinkleCount && twinkleCount < 40) // åœ¨ç›®æ¨™ä¸Šé–ƒçˆ
     {
         nextStr[cursorPosition << 1] = NONUM;
         nextStr[(cursorPosition << 1) + 1] = NONUM;
@@ -63,8 +63,8 @@ void setDateMode_Button1Press()
         cursorPosition = 0;
 }
 
-void setDateMode_Button1Hold() // ¼g¦^®É¶¡
-{					
+void setDateMode_Button1Hold() // å¯«å›žæ™‚é–“
+{                    
     changeMode(&dateMode);
 }
 

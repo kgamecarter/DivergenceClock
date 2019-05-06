@@ -19,7 +19,7 @@ code ModeLink stopwatchMode =
     stopwatch_Button1Hold,
     stopwatch_Button2Press,
     stopwatch_Button3Press,
-	stopwatchUpdate
+    stopwatchUpdate
 };
 
 // ssw = 0 stop, 1 run, 2 stop&lock
@@ -80,7 +80,7 @@ void scanStopwatch()
 }
 
 void stopwatch_Button1Press()
-{				  
+{                  
     changeMode(&timeMode);
 }
 
@@ -109,6 +109,6 @@ void stopwatch_Button3Press()
     }
     sss = 0;
     smm = 0;
-	shh = 0;
+    shh = 0;
     sCount = 0;
 }

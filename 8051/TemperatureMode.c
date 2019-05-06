@@ -21,7 +21,7 @@ code ModeLink temperatureMode =
     temperatureMode_Button1Hold,
     temperatureMode_Button2Press,
     temperatureMode_Button3Press,
-	temperatureMode_timerInterrupt
+    temperatureMode_timerInterrupt
 };
 
 float temperature;
@@ -30,21 +30,21 @@ void temperatureMode_onEnter()
 {
     twinkleCount = 33;
 
-	ISD_PowerUp();
+    ISD_PowerUp();
 }
 
 void temperatureMode_onExit()
 {
     twinkleCount = 0;
-	
-	ISD_PowerDown();
+    
+    ISD_PowerDown();
 }
 
 void temperatureMode_timerInterrupt()
 {
     if (twinkleCount >= 33)
     {
-	    displayOff();
+        displayOff();
         twinkleCount = 0;
         temperature = ReadTemperature();
         DetectTemperature();
@@ -83,7 +83,7 @@ void scanTemperature()
 
 
 void temperatureMode_Button1Press()
-{				 
+{                 
     changeMode(&dateMode);
 }
 
@@ -93,11 +93,11 @@ void temperatureMode_Button1Hold()
 
 void temperatureMode_Button2Press()
 {
-	ISD_PowerUp(); //ISD ¤W¹q
-	delayms(25);
-	ISD_PowerUp(); //ISD ¤W¹q
-	ISD_SetRec(0);
-	ISD_Rec();
+    ISD_PowerUp(); //ISD ä¸Šé›»
+    delayms(25);
+    ISD_PowerUp(); //ISD ä¸Šé›»
+    ISD_SetRec(0);
+    ISD_Rec();
 }
 
 void temperatureMode_Button3Press()

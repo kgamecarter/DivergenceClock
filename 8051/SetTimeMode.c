@@ -2,7 +2,7 @@
 #include "SetTimeMode.h"
 #include "TimeMode.h"
 #include "BCDCompute.h"
-    	    
+            
 void setTimeMode_onEnter();
 void setTimeMode_onExit();
 void scanSetTime();
@@ -25,13 +25,13 @@ code ModeLink setTimeMode =
 void setTimeMode_onEnter()
 {
     byte v = 0x80;
-    DS1307_setBytes(DS1307_SECOND, 1, &v); // °±¤î®É¶¡
+    DS1307_setBytes(DS1307_SECOND, 1, &v); // åœæ­¢æ™‚é–“
     cursorPosition = 0;
 }
 
 void setTimeMode_onExit()
 {
-    DS1307_setDateTime(&date); // ¼g¦^®É¶¡
+    DS1307_setDateTime(&date); // å¯«å›æ™‚é–“
     cursorPosition = 0xFF;
 }
 
@@ -44,7 +44,7 @@ void scanSetTime()
     nextStr[4] = date.hour & 0x0F;
     nextStr[5] = date.hour >> 4;
     nextStr[7] = date.day == 7 ? 0 : date.day;
-    if (20 <= twinkleCount && twinkleCount < 40) // ¦b¥Ø¼Ğ¤W°{Ã{
+    if (20 <= twinkleCount && twinkleCount < 40) // åœ¨ç›®æ¨™ä¸Šé–ƒçˆ
     {
         nextStr[cursorPosition << 1] = NONUM;
         nextStr[(cursorPosition << 1) + 1] = NONUM;

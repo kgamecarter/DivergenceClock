@@ -41,13 +41,13 @@
 
 #define EFFECTCOUNT 1
 
-ModeLink* mode;    // •Œ®Áº∆´¸º–º“¿¿™´•Ûæ…¶V™∫¶hßŒ
+ModeLink* mode;    // Áî®ÂáΩÊï∏ÊåáÊ®ôÊ®°Êì¨Áâ©‰ª∂Â∞éÂêëÁöÑÂ§öÂΩ¢
 DateTime date;
 code ModeLink* effectModes[EFFECTCOUNT] = { &worldLineMode };
 
 typedef struct _time
 {
-    byte minute;								 
+    byte minute;                                 
     byte hour;
 } Time;
 
@@ -70,13 +70,13 @@ bit effectEnable;
 
 void main()
 {
-    // ®æ§ÓøO∫ﬁ√z´G, •˝∫∂øO
+    // Èò≤Ê≠¢ÁáàÁÆ°ÁàÜ‰∫Æ, ÂÖàÁÜÑÁáà
     displayOff();
 
-    // ≥]©w∑≈´◊IC∫Î´◊
+    // Ë®≠ÂÆöÊ∫´Â∫¶ICÁ≤æÂ∫¶
     SetConfiguration(125, -55, 4);
 
-    // ∏¸§J¶s¶bRTC™∫¿Ùπ“≈‹º∆    
+    // ËºâÂÖ•Â≠òÂú®RTCÁöÑÁí∞Â¢ÉËÆäÊï∏    
     DS1307_getBytes(DS1307_RAM(0), 1, &defaultLightness);
     if (!defaultLightness)
         defaultLightness = 60;
@@ -84,23 +84,23 @@ void main()
     DS1307_getBytes(DS1307_RAM(2), 3, (byte*)&alarm);
     DS1307_getBytes(DS1307_RAM(5), 5, (byte*)&sleepTime);
 
-	// ISD4004
-	ISD_PowerDown();
-    // ™Ï©l§∆≠pÆ…æπ0
+    // ISD4004
+    ISD_PowerDown();
+    // ÂàùÂßãÂåñË®àÊôÇÂô®0
     TMOD = 0x21;  //13bit mode
-    // ™Ï©l§∆≠pÆ…æπ1 for ¶Í¶C∞, 9600
-	TL1 = 0xFD;
-	TH1 = 0xFD;
+    // ÂàùÂßãÂåñË®àÊôÇÂô®1 for ‰∏≤ÂàóÂü†, 9600
+    TL1 = 0xFD;
+    TH1 = 0xFD;
     SCON = 0x70;
     TR1 = 1;
     ES = 1;
-    // ™Ï©l§∆≠pÆ…æπ2 10ms§§¬_
+    // ÂàùÂßãÂåñË®àÊôÇÂô®2 10ms‰∏≠Êñ∑
     RCAP2H = 0xDC;
     RCAP2L = 0x5C;
     T2CON = 0x04;
-	ET2 = 1;
+    ET2 = 1;
 
-    //∂}©l•D≠n∞j∞È
+    //ÈñãÂßã‰∏ªË¶ÅËø¥Âúà
 
     mode = &timeMode;
     mode->onEnter();
@@ -108,12 +108,12 @@ void main()
     EA = 1;
     while (true)
     {
-	    watchDog();
+        watchDog();
         if (isSleep)
-		{
-		    displayOff(); //ΩT´OøO∫ﬁ§@©w§£´G
-    	    continue;
-		}
+        {
+            displayOff(); //Á¢∫‰øùÁáàÁÆ°‰∏ÄÂÆö‰∏ç‰∫Æ
+            continue;
+        }
         mode->scanAction();
     }
 
@@ -129,14 +129,14 @@ void changeMode(ModeLink* newMode)
 sbyte cmpTime(Time* a, Time* b)
 {
     if (a->hour > b->hour)
-	    return 1;
-	if (a->hour < b->hour)
-	    return -1;
-	if (a->minute > b->minute)
-	    return 1;
-	if (a->minute < b->minute)
-	    return -1;
-	return 0;
+        return 1;
+    if (a->hour < b->hour)
+        return -1;
+    if (a->minute > b->minute)
+        return 1;
+    if (a->minute < b->minute)
+        return -1;
+    return 0;
 }
 
 
@@ -144,16 +144,16 @@ byte tCount = 0;
 idata byte b1Count = 0;
 idata byte b2Count = 0;
 idata byte b3Count = 0;
-// ®C¨Ì∑|©I•s100¶∏
+// ÊØèÁßíÊúÉÂëºÂè´100Ê¨°
 void timer2_int() interrupt 5
 {
-    TF2 = 0; // ≠pÆ…æπ2∑∏¶Ï∫Xº–¬kπs
-    // ∞ª¥˙´ˆ¡‰1
+    TF2 = 0; // Ë®àÊôÇÂô®2Ê∫¢‰ΩçÊóóÊ®ôÊ≠∏Èõ∂
+    // ÂÅµÊ∏¨ÊåâÈçµ1
     if (P3_2 == ENABLE)
     {
         if (b1Count < 200)
             b1Count++;
-        else if (b1Count == 200 && !isSleep) // ™¯´ˆ2¨Ì
+        else if (b1Count == 200 && !isSleep) // Èï∑Êåâ2Áßí
         {
             b1Count++;
             mode->button1Hold();
@@ -161,16 +161,16 @@ void timer2_int() interrupt 5
     }
     else
     {
-        if (b1Count && b1Count < 70)  // µu´ˆ
-    	{
-    	    if (isSleep)
-    	        isSleep = false;
-    	    else
+        if (b1Count && b1Count < 70)  // Áü≠Êåâ
+        {
+            if (isSleep)
+                isSleep = false;
+            else
                 mode->button1Press();
-    	}
+        }
         b1Count = 0;
     }
-    // ∞ª¥˙´ˆ¡‰2
+    // ÂÅµÊ∏¨ÊåâÈçµ2
     if (P3_3 == ENABLE && !isSleep)
     {
         if (b2Count < 225)
@@ -178,11 +178,11 @@ void timer2_int() interrupt 5
     }
     else
     {
-        if (b2Count && b2Count < 70)  // µu´ˆ
+        if (b2Count && b2Count < 70)  // Áü≠Êåâ
             mode->button2Press();
         b2Count = 0;
     }
-    // ∞ª¥˙´ˆ¡‰3
+    // ÂÅµÊ∏¨ÊåâÈçµ3
     if (P3_4 == ENABLE && !isSleep)
     {
         if (b3Count < 200)
@@ -190,81 +190,81 @@ void timer2_int() interrupt 5
     }
     else
     {
-        if (b3Count && b3Count < 70)  // µu´ˆ
+        if (b3Count && b3Count < 70)  // Áü≠Êåâ
             mode->button3Press();
         b3Count = 0;
     }
 
-    // ßÛ∑sÆ…∂°
-	if (mode->timerInterrupt != NULL)
-	    mode->timerInterrupt();
+    // Êõ¥Êñ∞ÊôÇÈñì
+    if (mode->timerInterrupt != NULL)
+        mode->timerInterrupt();
 }
 
 void timeUpdate()
 {
-	if (tCount < 100)
-	    tCount++;
-	else
-	{
-	    tCount = 0;
-	    date.second = BCDaddOne(date.second, 0x00, 0x59);
-	}
-	if (date.second == 0x59 && (tCount & 0x15) == 0) // 59 to 00
-	{
-	    byte newSec;
-	    DS1307_getBytes(DS1307_SECOND, 1, &newSec);
-	    if (newSec < date.second)
-	    {
-	        date.second = newSec;
-	        DS1307_getBytes(DS1307_MINUTE, 6, &date.minute);
-	    	tCount = 0;
-	    	// ∫ŒØv•\Ø‡
-	    	if (sleepTime.enable)
-	    	{
-	    	    if (cmpTime(&sleepTime.start ,&sleepTime.end) == -1)
-	    	    {
-	    	        if (cmpTime(&sleepTime.start, (Time*)&date.minute) == -1 &&
-	    	    	    cmpTime((Time*)&date.minute, &sleepTime.end)   == -1)
-	    	    	    isSleep = true;
-					else
-					    isSleep = false;
-	    	    }
-	    	    else
-	    	    {    	    	    	    	    	    	    	  
-	    	        if (cmpTime((Time*)&date.minute, &sleepTime.start) == -1 ||
-	    	    	    cmpTime(&sleepTime.end, (Time*)&date.minute)   == -1)
-	    	    	    isSleep = true;
-					else
-					    isSleep = false;
-	    	    }
-	    	}
-			// æxƒ¡
-			if (alarm.enable)
-			{
-			    if (cmpTime((Time*)&date.minute, &alarm.time) == 0)
-				{
-					ISD_PowerUp(); //ISD §Wπq
-					delayms(25);
-				    ISD_SetPlay(0);
-	                ISD_Play();
-					isSleep = false;
-				}
-			}
+    if (tCount < 100)
+        tCount++;
+    else
+    {
+        tCount = 0;
+        date.second = BCDaddOne(date.second, 0x00, 0x59);
+    }
+    if (date.second == 0x59 && (tCount & 0x15) == 0) // 59 to 00
+    {
+        byte newSec;
+        DS1307_getBytes(DS1307_SECOND, 1, &newSec);
+        if (newSec < date.second)
+        {
+            date.second = newSec;
+            DS1307_getBytes(DS1307_MINUTE, 6, &date.minute);
+            tCount = 0;
+            // Áù°Áú†ÂäüËÉΩ
+            if (sleepTime.enable)
+            {
+                if (cmpTime(&sleepTime.start ,&sleepTime.end) == -1)
+                {
+                    if (cmpTime(&sleepTime.start, (Time*)&date.minute) == -1 &&
+                        cmpTime((Time*)&date.minute, &sleepTime.end)   == -1)
+                        isSleep = true;
+                    else
+                        isSleep = false;
+                }
+                else
+                {                                                          
+                    if (cmpTime((Time*)&date.minute, &sleepTime.start) == -1 ||
+                        cmpTime(&sleepTime.end, (Time*)&date.minute)   == -1)
+                        isSleep = true;
+                    else
+                        isSleep = false;
+                }
+            }
+            // È¨ßÈêò
+            if (alarm.enable)
+            {
+                if (cmpTime((Time*)&date.minute, &alarm.time) == 0)
+                {
+                    ISD_PowerUp(); //ISD ‰∏äÈõª
+                    delayms(25);
+                    ISD_SetPlay(0);
+                    ISD_Play();
+                    isSleep = false;
+                }
+            }
 
-			if (/*effectEnable && */!isSleep && mode == &timeMode)
-			{
-			    mode->onExit();
-				cursorPosition = 2;
-				mode = effectModes[rand() % EFFECTCOUNT];
-			}
-	    }
-	}
+            if (/*effectEnable && */!isSleep && mode == &timeMode)
+            {
+                mode->onExit();
+                cursorPosition = 2;
+                mode = effectModes[rand() % EFFECTCOUNT];
+            }
+        }
+    }
 }
 
 void memcpyA(byte* dest, byte* sour, byte count)
 {
     while (count--)
-	    *dest++ = *sour++;
+        *dest++ = *sour++;
 }
 
 idata byte uartInData[UART_IN_DATA_MAXSIZE], uartInType = 0xFF, uartInSize = 0xFF, uartInIndex = 0;
@@ -275,47 +275,47 @@ void UART_int() interrupt 4
     ModeLink* newMode;
     if (RI)
     {
-    	if (uartInType == 0xFF)
-    	{
-    	    if (SBUF == 0)
-    	    {
-    	        RI = 0;
-    	    	uartOutType = 0;
-    	    	uartOutSize = 0xFF;
-    	    	uartOutOutdex = 0xFF;
-				TI = 1;
-    	    	goto TIAction;
-    	    }
-    	    uartInType = SBUF;
-    	    RI = 0;
-    	    return;
-    	}
-    	if (uartInSize == 0xFF)
-    	{
-    	    uartInSize = SBUF;
-    	    RI = 0;
-    	    if (uartInSize == 0)
-    	        goto uartAction;
-    	    return;
-    	}
-    	if (uartInIndex < uartInSize)
-    	{
-    	    uartInData[uartInIndex++] = SBUF;
+        if (uartInType == 0xFF)
+        {
+            if (SBUF == 0)
+            {
+                RI = 0;
+                uartOutType = 0;
+                uartOutSize = 0xFF;
+                uartOutOutdex = 0xFF;
+                TI = 1;
+                goto TIAction;
+            }
+            uartInType = SBUF;
             RI = 0;
-    	    if (uartInIndex < uartInSize)
-    	    	return;
-    	}
+            return;
+        }
+        if (uartInSize == 0xFF)
+        {
+            uartInSize = SBUF;
+            RI = 0;
+            if (uartInSize == 0)
+                goto uartAction;
+            return;
+        }
+        if (uartInIndex < uartInSize)
+        {
+            uartInData[uartInIndex++] = SBUF;
+            RI = 0;
+            if (uartInIndex < uartInSize)
+                return;
+        }
     uartAction:
-	    newMode = mode;
+        newMode = mode;
         switch (uartInType)
         {
         case UART_SETDATETIME:
-            DS1307_setDateTime((DateTime*)uartInData); // ºgÆ…∂°
-			memcpyA((byte*)&date, uartInData, 7);
+            DS1307_setDateTime((DateTime*)uartInData); // ÂØ´ÊôÇÈñì
+            memcpyA((byte*)&date, uartInData, 7);
             break;
-    	case UART_UART:
-    	    newMode = &uartMode;
-    	    break;
+        case UART_UART:
+            newMode = &uartMode;
+            break;
         case UART_SETLIGHTNESS:
             defaultLightness = uartInData[0];
             DS1307_setBytes(DS1307_RAM(0), 1, &defaultLightness);
@@ -326,11 +326,11 @@ void UART_int() interrupt 4
             break;
         case UART_SETALARM:
             DS1307_setBytes(DS1307_RAM(2), 3, uartInData);
-			memcpyA((byte*)&alarm, uartInData, 3);
+            memcpyA((byte*)&alarm, uartInData, 3);
             break;
         case UART_SETSLEEPTIME:
             DS1307_setBytes(DS1307_RAM(5), 5, uartInData);
-			memcpyA((byte*)&sleepTime, uartInData, 5);
+            memcpyA((byte*)&sleepTime, uartInData, 5);
             break;
         case UART_BUTTON1:
             mode->button1Press();
@@ -342,81 +342,81 @@ void UART_int() interrupt 4
             mode->button3Press();
             goto noMode;
         case UART_TIME:
-    	    newMode = &timeMode;
+            newMode = &timeMode;
             break;
         case UART_DATE:
-    	    newMode = &dateMode;
+            newMode = &dateMode;
             break;
         case UART_STOPWATCH:   
-    	    newMode = &stopwatchMode;
+            newMode = &stopwatchMode;
             break;
         case UART_WORLDLINE:     
-    	    newMode = &worldLineMode;
+            newMode = &worldLineMode;
             break;
-        case UART_MARQUEE:    	
-    	    newMode = &marqueeMode;
+        case UART_MARQUEE:        
+            newMode = &marqueeMode;
             break;
         case UART_TEMPERATURE:    
-    	    newMode = &temperatureMode;
+            newMode = &temperatureMode;
             break;
-    	case UART_GETLIGHTNESS:
-    	    uartOutType = UART_GETLIGHTNESS;
-    	    uartOutSize = 1;
-    	    uartOutData = &defaultLightness;
-    	    TI = 1;
-    	    break;
-    	case UART_GETCROSSFADE:
-    	    uartOutType = UART_GETCROSSFADE;
-    	    uartOutSize = 1;
-    	    uartOutData = &crossfade;
-    	    TI = 1;
-    	    break;			
-    	case UART_GETALARM:
-    	    uartOutType = UART_GETALARM;
-    	    uartOutSize = 3;
-    	    uartOutData = (byte*)&alarm;
-    	    TI = 1;
-    	    break;
-    	case UART_GETSLEEPTIME:
-    	    uartOutType = UART_GETSLEEPTIME;
-    	    uartOutSize = 5;
-    	    uartOutData = (byte*)&sleepTime;
-    	    TI = 1;
-    	    break;
+        case UART_GETLIGHTNESS:
+            uartOutType = UART_GETLIGHTNESS;
+            uartOutSize = 1;
+            uartOutData = &defaultLightness;
+            TI = 1;
+            break;
+        case UART_GETCROSSFADE:
+            uartOutType = UART_GETCROSSFADE;
+            uartOutSize = 1;
+            uartOutData = &crossfade;
+            TI = 1;
+            break;            
+        case UART_GETALARM:
+            uartOutType = UART_GETALARM;
+            uartOutSize = 3;
+            uartOutData = (byte*)&alarm;
+            TI = 1;
+            break;
+        case UART_GETSLEEPTIME:
+            uartOutType = UART_GETSLEEPTIME;
+            uartOutSize = 5;
+            uartOutData = (byte*)&sleepTime;
+            TI = 1;
+            break;
         }
-    	if (newMode != mode)
-		    changeMode(newMode);
-	noMode:
+        if (newMode != mode)
+            changeMode(newMode);
+    noMode:
         uartInType = 0xFF;
-    	uartInSize = 0xFF;
-    	uartInIndex = 0;
+        uartInSize = 0xFF;
+        uartInIndex = 0;
     }
 TIAction:
     if (TI)
     {
         TI = 0;
-    	if (uartOutType != 0xFF)
-    	{
-    	    SBUF = uartOutType;
-    	    uartOutType = 0xFF;
-    	    return;
-    	}
-    	if (uartOutSize != 0xFF && uartOutOutdex == 0xFF)
-    	{
-    	    SBUF = uartOutSize;
-    	    if (uartOutSize == 0)
-    	        goto uartEnd;
-    	    uartOutOutdex = 0;
-    	    return;
-    	}
-    	if (uartOutOutdex < uartOutSize)
-    	{
-    	    SBUF = uartOutData[uartOutOutdex++];
-    	    if (uartOutOutdex < uartOutSize)
-    	    	return;
-    	}
+        if (uartOutType != 0xFF)
+        {
+            SBUF = uartOutType;
+            uartOutType = 0xFF;
+            return;
+        }
+        if (uartOutSize != 0xFF && uartOutOutdex == 0xFF)
+        {
+            SBUF = uartOutSize;
+            if (uartOutSize == 0)
+                goto uartEnd;
+            uartOutOutdex = 0;
+            return;
+        }
+        if (uartOutOutdex < uartOutSize)
+        {
+            SBUF = uartOutData[uartOutOutdex++];
+            if (uartOutOutdex < uartOutSize)
+                return;
+        }
         uartOutOutdex = 0xFF;
     uartEnd:
-    	uartOutSize = 0xFF;
+        uartOutSize = 0xFF;
     }
 }
