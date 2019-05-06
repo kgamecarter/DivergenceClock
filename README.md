@@ -46,3 +46,8 @@
 13 01 FF
 - 設定鬧鐘
 05 03 01 30 06
+
+## DEMO
+[![](http://img.youtube.com/vi/TVbxn__EGl4/0.jpg)](http://www.youtube.com/watch?v=TVbxn__EGl4 "")
+[![](http://img.youtube.com/vi/hchnT9OHsEU/0.jpg)](http://www.youtube.com/watch?v=hchnT9OHsEU "")
+[![](http://img.youtube.com/vi/RF2nmgLNfOo/0.jpg)](http://www.youtube.com/watch?v=RF2nmgLNfOo "")
