@@ -47,6 +47,11 @@
 - 設定鬧鐘
 05 03 01 30 06
 
+## 照片
+![](https://i.imgur.com/EKghmoQ.png)
+![](https://i.imgur.com/0zbtbKi.png)
+![](https://i.imgur.com/NxFucGy.png)
+
 ## DEMO
 [![](http://img.youtube.com/vi/TVbxn__EGl4/0.jpg)](http://www.youtube.com/watch?v=TVbxn__EGl4 "")
 [![](http://img.youtube.com/vi/hchnT9OHsEU/0.jpg)](http://www.youtube.com/watch?v=hchnT9OHsEU "")
