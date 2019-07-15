@@ -1,0 +1,26 @@
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.29102.190
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{803FD0C6-D64E-4E16-9DC3-1DAEC859A3D2}") = "DivergenceClock", "DivergenceClock.vgdbproj", "{80BB9455-0F51-42A7-A1F2-379B4BAE0EB9}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Generic_STM32F1_series = Debug|Generic_STM32F1_series
+		Release|Generic_STM32F1_series = Release|Generic_STM32F1_series
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{80BB9455-0F51-42A7-A1F2-379B4BAE0EB9}.Debug|Generic_STM32F0_series.ActiveCfg = Debug|Generic_STM32F1_series
+		{80BB9455-0F51-42A7-A1F2-379B4BAE0EB9}.Debug|Generic_STM32F1_series.ActiveCfg = Debug|Generic_STM32F1_series
+		{80BB9455-0F51-42A7-A1F2-379B4BAE0EB9}.Debug|Generic_STM32F1_series.Build.0 = Debug|Generic_STM32F1_series
+		{80BB9455-0F51-42A7-A1F2-379B4BAE0EB9}.Release|Generic_STM32F0_series.ActiveCfg = Release|Generic_STM32F1_series
+		{80BB9455-0F51-42A7-A1F2-379B4BAE0EB9}.Release|Generic_STM32F1_series.ActiveCfg = Release|Generic_STM32F1_series
+		{80BB9455-0F51-42A7-A1F2-379B4BAE0EB9}.Release|Generic_STM32F1_series.Build.0 = Release|Generic_STM32F1_series
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {00792AFE-7476-4AA3-B85E-8AB6C6892DDC}
+	EndGlobalSection
+EndGlobal
