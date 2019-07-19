@@ -1,9 +1,10 @@
+#include <IWatchdog.h>
 // https://github.com/kgamecarter/DS1307
 #include <DS1307.h>
 // https://github.com/kgamecarter/JK_Button
 #include <JK_Button.h>
-// https://github.com/MajenkoLibraries/SoftSPI
-#include <SoftSPI.h>
+
+#include "ISD4004.h"
 
 #define UART_BAUD 9600
 
@@ -38,7 +39,7 @@ Button btn3([]() -> bool {
 
 DS1307 rtc(SDA_PIN, SCL_PIN);
 
-SoftSPI mySPI(ISD_MOSI, ISD_MISO, ISD_SCLK);
+ISD4004 isd(ISD_MOSI, ISD_MISO, ISD_SCLK, ISD_SS);
 
 void setup()
 {
@@ -51,12 +52,43 @@ void setup()
 	pinMode(BUTTON_2_PIN, INPUT_PULLUP);
 	pinMode(BUTTON_3_PIN, INPUT_PULLUP);
 	pinMode(LED_BUILTIN, OUTPUT_OPEN_DRAIN);
+	digitalWrite(LED_BUILTIN, LOW);
+
+	if (IWatchdog.isReset(true)) {
+		// 如果是因為 Watchdog 而 reset 則閃燈
+		for (uint8_t i = 5 ; i > 0; i--) {
+			digitalWrite(LED_BUILTIN, LOW);
+			delay(100);
+			digitalWrite(LED_BUILTIN, HIGH);
+			delay(100);
+		}
+	}
+	// Init the watchdog timer with 2 seconds timeout
+	IWatchdog.begin(2000000);
+	if (!IWatchdog.isEnabled()) {
+		// LED blinks indefinitely
+		while (1) {
+			digitalWrite(LED_BUILTIN, LOW);
+			delay(500);
+			digitalWrite(LED_BUILTIN, HIGH);
+			delay(500);
+		}
+	}
 	
-	mySPI.begin();
+	pinMode(ISD_INT, INPUT);
+	// TODO ISD_INT interrupt
+	pinMode(ISD_RAC, INPUT);
+	
+	pinMode(PB2, OUTPUT_OPEN_DRAIN);
+	digitalWrite(PB2, HIGH);
+	isd.begin();
+	isd.powerDown();
+	
 	
 	Serial.begin(UART_BAUD);
 	Serial.println("Ready");
 	printTime();
+	digitalWrite(LED_BUILTIN, HIGH);
 }
 
 void loop()
@@ -66,6 +98,7 @@ void loop()
 
 void scanButton()
 {
+	IWatchdog.reload();
 	btn1.read();
 	btn2.read();
 	btn3.read();
@@ -75,10 +108,13 @@ void scanButton()
 	}
 	if (btn2.wasPressed())
 	{
-		digitalWrite(LED_BUILTIN, HIGH);
-		delay(1000);
 		digitalWrite(LED_BUILTIN, LOW);
-		delay(1000);
+		delay(500);
+		digitalWrite(LED_BUILTIN, HIGH);
+		isd.powerUp();
+		delay(25);
+		isd.setPlay(0);
+		isd.play();
 	}
 }
 
