@@ -1,6 +1,9 @@
 #include <IWatchdog.h>
+#include <OneWire.h>
 // https://github.com/kgamecarter/DS1307
 #include <DS1307.h>
+// https://github.com/milesburton/Arduino-Temperature-Control-Library
+#include <DallasTemperature.h>
 // https://github.com/kgamecarter/JK_Button
 #include <JK_Button.h>
 
@@ -41,6 +44,9 @@ DS1307 rtc(SDA_PIN, SCL_PIN);
 
 ISD4004 isd(ISD_MOSI, ISD_MISO, ISD_SCLK, ISD_SS);
 
+OneWire oneWire(TEMP_PIN);
+DallasTemperature sensors(&oneWire);
+
 void setup()
 {
 	for (uint8_t i = 0; i < SEL_NUM; i++)
@@ -54,9 +60,11 @@ void setup()
 	pinMode(LED_BUILTIN, OUTPUT_OPEN_DRAIN);
 	digitalWrite(LED_BUILTIN, LOW);
 
-	if (IWatchdog.isReset(true)) {
-		// 如果是因為 Watchdog 而 reset 則閃燈
-		for (uint8_t i = 5 ; i > 0; i--) {
+	/* 如果是因為 Watchdog 而 reset 則閃燈 */
+	if (IWatchdog.isReset(true))
+	{
+		for (uint8_t i = 0; i < 5; i++)
+		{
 			digitalWrite(LED_BUILTIN, LOW);
 			delay(100);
 			digitalWrite(LED_BUILTIN, HIGH);
@@ -65,9 +73,11 @@ void setup()
 	}
 	// Init the watchdog timer with 2 seconds timeout
 	IWatchdog.begin(2000000);
-	if (!IWatchdog.isEnabled()) {
-		// LED blinks indefinitely
-		while (1) {
+	if (!IWatchdog.isEnabled())
+	{
+		/* LED blinks indefinitely */
+		while (1)
+		{
 			digitalWrite(LED_BUILTIN, LOW);
 			delay(500);
 			digitalWrite(LED_BUILTIN, HIGH);
@@ -84,10 +94,13 @@ void setup()
 	isd.begin();
 	isd.powerDown();
 	
+	sensors.begin();
+	sensors.setWaitForConversion(false);
 	
 	Serial.begin(UART_BAUD);
 	Serial.println("Ready");
 	printTime();
+	printTemp();
 	digitalWrite(LED_BUILTIN, HIGH);
 }
 
@@ -105,6 +118,7 @@ void scanButton()
 	if (btn1.wasPressed())
 	{
 		printTime();
+		printTemp();
 	}
 	if (btn2.wasPressed())
 	{
@@ -132,4 +146,22 @@ void printTime()
 	Serial.print(time.min);
 	Serial.print(":");
 	Serial.println(time.sec);
+}
+
+void printTemp()
+{
+	// 取得上次的值
+	float tempC = sensors.getTempCByIndex(0);
+
+	if (tempC != DEVICE_DISCONNECTED_C) 
+	{
+		Serial.print("Temperature for the device 1 (index 0) is: ");
+		Serial.println(tempC);
+	} 
+	else
+	{
+		Serial.println("Error: Could not read temperature data");
+	}
+	// 非同步請求
+	sensors.requestTemperatures();
 }
