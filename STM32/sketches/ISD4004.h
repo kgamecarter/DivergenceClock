@@ -1,7 +1,6 @@
 #pragma once
 
 #include <Arduino.h>
-#include <SoftSPI.h>
 
 class ISD4004
 {

@@ -1,4 +1,5 @@
 #include <IWatchdog.h>
+// https://github.com/PaulStoffregen/OneWire
 #include <OneWire.h>
 // https://github.com/kgamecarter/DS1307
 #include <DS1307.h>
@@ -6,7 +7,7 @@
 #include <DallasTemperature.h>
 // https://github.com/kgamecarter/JK_Button
 #include <JK_Button.h>
-// https://github.com/mikaelpatel/Arduino-Scheduler
+// https://github.com/kgamecarter/Arduino-Scheduler
 #include <Scheduler.h>
 
 #include "ISD4004.h"
