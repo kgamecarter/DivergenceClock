@@ -20,6 +20,8 @@
       </RootSketchFolder>
       <OtherFiles>
         <string>sketches\ISD4004.h</string>
+        <string>sketches\Display.h</string>
+        <string>sketches\Mode.h</string>
       </OtherFiles>
     </ProjectModeSettings>
   </Project>

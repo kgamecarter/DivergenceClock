@@ -6,8 +6,12 @@
 #include <DallasTemperature.h>
 // https://github.com/kgamecarter/JK_Button
 #include <JK_Button.h>
+// https://github.com/mikaelpatel/Arduino-Scheduler
+#include <Scheduler.h>
 
 #include "ISD4004.h"
+#include "Display.h"
+#include "Mode.h"
 
 #define UART_BAUD 9600
 
@@ -27,8 +31,8 @@
 #define ISD_INT  PB4 
 #define ISD_RAC  PB5
 
-#define SEL_NUM 8
 const uint8_t selPins[SEL_NUM] = { PA0, PA1, PA2, PA3, PA4, PA5, PA6, PA7 };
+const uint8_t lightPins[LIGHT_PIN_NUM] = { PB8, PB9, PB10, PB11, PB12, PB13 };
 
 Button btn1([]() -> bool {
 	return digitalRead(BUTTON_1_PIN);
@@ -47,13 +51,18 @@ ISD4004 isd(ISD_MOSI, ISD_MISO, ISD_SCLK, ISD_SS);
 OneWire oneWire(TEMP_PIN);
 DallasTemperature sensors(&oneWire);
 
+Display display(selPins, lightPins);
+
+ModeManager manager;
+
+void printTime();
+void printTemp();
+
+TestMode testMode(&manager, &display, &isd, printTime, printTemp);
+
 void setup()
 {
-	for (uint8_t i = 0; i < SEL_NUM; i++)
-	{
-		pinMode(selPins[i], OUTPUT_OPEN_DRAIN);
-		digitalWrite(selPins[i], LOW);
-	}
+	display.begin();
 	pinMode(BUTTON_1_PIN, INPUT_PULLUP);
 	pinMode(BUTTON_2_PIN, INPUT_PULLUP);
 	pinMode(BUTTON_3_PIN, INPUT_PULLUP);
@@ -102,34 +111,30 @@ void setup()
 	printTime();
 	printTemp();
 	digitalWrite(LED_BUILTIN, HIGH);
+	
+	manager.setMode(&testMode);
+	Scheduler.startLoop(scanButtonLoop);
 }
 
 void loop()
 {
-	scanButton();
+	IWatchdog.reload();
+	manager.scan();
+	yield();
 }
 
-void scanButton()
+void scanButtonLoop()
 {
-	IWatchdog.reload();
 	btn1.read();
 	btn2.read();
 	btn3.read();
 	if (btn1.wasPressed())
-	{
-		printTime();
-		printTemp();
-	}
+		manager.button1Press();
 	if (btn2.wasPressed())
-	{
-		digitalWrite(LED_BUILTIN, LOW);
-		delay(500);
-		digitalWrite(LED_BUILTIN, HIGH);
-		isd.powerUp();
-		delay(25);
-		isd.setPlay(0);
-		isd.play();
-	}
+		manager.button2Press();
+	if (btn3.wasPressed())
+		manager.button3Press();
+	delay(5);
 }
 
 void printTime()
