@@ -32,8 +32,8 @@
 #define ISD_INT  PB4 
 #define ISD_RAC  PB5
 
-const uint8_t selPins[SEL_NUM] = { PA0, PA1, PA2, PA3, PA4, PA5, PA6, PA7 };
-const uint8_t lightPins[LIGHT_PIN_NUM] = { PB8, PB9, PB10, PB11, PB12, PB13 };
+const uint8_t selPins[SEL_PIN_COUNT] = { PA0, PA1, PA2, PA3, PA4, PA5, PA6, PA7 };
+const uint8_t lightPins[LIGHT_PIN_COUNT] = { PB8, PB9, PB10, PB11, PB12, PB13 };
 
 Button btn1([]() -> bool {
 	return digitalRead(BUTTON_1_PIN);

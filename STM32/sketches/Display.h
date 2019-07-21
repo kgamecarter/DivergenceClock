@@ -2,13 +2,13 @@
 
 #include <Arduino.h>
 
-#define RDOT     0x10
-#define LDOT     0x20
-#define NONUM      10
-#define OVERCHAR 0xFF
+#define R_DOT     0x10
+#define L_DOT     0x20
+#define NO_NUM      10
+#define OVER_CHAR 0xFF
 
-#define SEL_NUM 8
-#define LIGHT_PIN_NUM 6
+#define SEL_PIN_COUNT 8
+#define LIGHT_PIN_COUNT 6
 
 class Display
 {

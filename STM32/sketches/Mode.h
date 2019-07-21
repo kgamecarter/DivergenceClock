@@ -134,7 +134,7 @@ public:
 			buffer[i] = v;
 		
 		uint8_t p = t % 16;
-		buffer[p / 2] |= p & 1 ? LDOT : RDOT;
+		buffer[p / 2] |= p & 1 ? L_DOT : R_DOT;
 		
 		delay(100);
 	}
