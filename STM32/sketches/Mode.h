@@ -83,9 +83,9 @@ public:
 	
 	void addMode(Modes m, Mode* mode)
 	{
-		if (m < 0 || MODES_COUNT <= m)
+		if (m >= MODES_COUNT)
 		{
-			Serial.print("Invalid mode");
+			Serial.print("Invalid mode ");
 			Serial.println((uint8_t)m);
 			return;
 		}
@@ -94,9 +94,9 @@ public:
 	
 	void setMode(Modes m)
 	{
-		if (m < 0 || MODES_COUNT <= m)
+		if (m >= MODES_COUNT)
 		{
-			Serial.print("Invalid mode");
+			Serial.print("Invalid mode ");
 			Serial.println((uint8_t)m);
 			return;
 		}
