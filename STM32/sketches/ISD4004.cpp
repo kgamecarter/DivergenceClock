@@ -80,7 +80,7 @@ void ISD4004::spiSend(uint8_t data)
 	digitalWrite(this->sclk, LOW);
 	delayMicroseconds(ISD_DELAY); // Tsss
 	//先發低位再發高位，依次發送。
-	for (uint8_t i = 0; i < 8; i++)
+	for (int i = 0; i < 8; i++)
 	{
 		//發送最低位
 		digitalWrite(this->mosi, data & 1);

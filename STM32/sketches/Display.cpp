@@ -12,12 +12,12 @@ Display::~Display()
 
 void Display::begin()
 {
-	for (uint8_t i = 0; i < SEL_PIN_COUNT; i++)
+	for (int i = 0; i < SEL_PIN_COUNT; i++)
 	{
 		pinMode(selPins[i], OUTPUT_OPEN_DRAIN);
 		digitalWrite(selPins[i], LOW);
 	}
-	for (uint8_t i = 0; i < LIGHT_PIN_COUNT; i++)
+	for (int i = 0; i < LIGHT_PIN_COUNT; i++)
 	{
 		pinMode(lightPins[i], OUTPUT_OPEN_DRAIN);
 		digitalWrite(lightPins[i], LOW);
@@ -42,7 +42,7 @@ void Display::setBrightness(uint16_t value)
 
 void Display::scan(const uint8_t* str)
 {
-	for (uint8_t i = 0; i < SEL_PIN_COUNT; i++)
+	for (int i = 0; i < SEL_PIN_COUNT; i++)
 	{
 		if (str[i] == OVER_CHAR)
 		{
@@ -68,7 +68,7 @@ void Display::scan(const uint8_t* str)
 
 void Display::show(uint8_t v)
 {
-	for (uint8_t i = 0; i < LIGHT_PIN_COUNT; i++)
+	for (int i = 0; i < LIGHT_PIN_COUNT; i++)
 	{
 		digitalWrite(this->lightPins[i], v & 1);
 		v >>= 1;
