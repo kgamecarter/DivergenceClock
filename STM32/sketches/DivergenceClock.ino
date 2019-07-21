@@ -115,7 +115,9 @@ void setup()
 	printTemp();
 	digitalWrite(LED_BUILTIN, HIGH);
 	
-	manager.setMode(&testMode);
+	manager.addMode(Modes::TEST_MODE, &testMode);
+	manager.setMode(Modes::TEST_MODE);
+	
 	Scheduler.startLoop(scanButtonLoop);
 	Scheduler.startLoop([]() -> void
 	{

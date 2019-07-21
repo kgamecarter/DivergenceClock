@@ -9,6 +9,13 @@
 
 class ModeManager;
 
+#define MODES_COUNT 1
+
+enum Modes : uint8_t
+{
+	TEST_MODE
+};
+
 class Mode
 {
 public:
@@ -74,12 +81,30 @@ public:
 			this->mode->button3Press();
 	}
 	
-	void setMode(Mode* mode)
+	void addMode(Modes m, Mode* mode)
 	{
-		this->nextMode = mode;
+		if (m < 0 || MODES_COUNT <= m)
+		{
+			Serial.print("Invalid mode");
+			Serial.println((uint8_t)m);
+			return;
+		}
+		this->modes[m] = mode;
+	}
+	
+	void setMode(Modes m)
+	{
+		if (m < 0 || MODES_COUNT <= m)
+		{
+			Serial.print("Invalid mode");
+			Serial.println((uint8_t)m);
+			return;
+		}
+		this->nextMode = modes[m];
 	}
 	
 private:
+	Mode* modes[MODES_COUNT];
 	Mode* mode;
 	Mode* nextMode;
 };
