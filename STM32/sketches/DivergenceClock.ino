@@ -51,6 +51,7 @@ ISD4004 isd(ISD_MOSI, ISD_MISO, ISD_SCLK, ISD_SS);
 
 OneWire oneWire(TEMP_PIN);
 DallasTemperature sensors(&oneWire);
+DeviceAddress tempSensorAddress;
 
 Display display(selPins, lightPins);
 
@@ -106,6 +107,7 @@ void setup()
 	
 	sensors.begin();
 	sensors.setWaitForConversion(false);
+	sensors.getAddress(tempSensorAddress, 0);
 	
 	Serial.begin(UART_BAUD);
 	Serial.println("Ready");
@@ -115,6 +117,11 @@ void setup()
 	
 	manager.setMode(&testMode);
 	Scheduler.startLoop(scanButtonLoop);
+	Scheduler.startLoop([]() -> void
+	{
+		manager.update();
+		yield();
+	});
 }
 
 void loop()
@@ -157,17 +164,18 @@ void printTime()
 void printTemp()
 {
 	// 取得上次的值
-	float tempC = sensors.getTempCByIndex(0);
-
+	float tempC = sensors.getTempC(tempSensorAddress);
+	delay(5);
+	Serial.print("Temp: ");
 	if (tempC != DEVICE_DISCONNECTED_C) 
 	{
-		Serial.print("Temperature for the device 1 (index 0) is: ");
 		Serial.println(tempC);
 	} 
 	else
 	{
-		Serial.println("Error: Could not read temperature data");
+		Serial.println("Error");
 	}
+	delay(5);
 	// 非同步請求
 	sensors.requestTemperatures();
 }

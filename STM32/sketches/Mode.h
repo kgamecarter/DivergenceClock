@@ -18,6 +18,7 @@ public:
 	{ }
 	
 	virtual void scan() = 0;
+	virtual void update() = 0;
 	virtual void button1Press() = 0;
 	virtual void button2Press() = 0;
 	virtual void button3Press() = 0;
@@ -47,6 +48,12 @@ public:
 		}
 		if (this->mode != NULL)
 			this->mode->scan();
+	}
+	
+	void update()
+	{
+		if (this->mode != NULL)
+			this->mode->update();
 	}
 	
 	void button1Press()
@@ -90,17 +97,21 @@ public:
 	
 	virtual void scan()
 	{
-		uint8_t str[8];
+		this->display->scan(buffer);
+	}
+	
+	virtual void update()
+	{
 		auto t = millis();
 		t /= 100;
 		uint8_t v = t % 10;
 		for (uint8_t i = 0; i < 8; i++)
-			str[i] = v;
+			buffer[i] = v;
 		
 		uint8_t p = t % 16;
-		str[p / 2] |= p & 1 ? LDOT : RDOT;
+		buffer[p / 2] |= p & 1 ? LDOT : RDOT;
 		
-		this->display->scan(str);
+		delay(100);
 	}
 	
 	virtual void button1Press()
@@ -127,4 +138,5 @@ public:
 private:
 	ISD4004* isd;
 	std::function<void(void)> btn1, btn2;
+	uint8_t buffer[8];
 };
