@@ -40,10 +40,7 @@ private:
 class ModeManager
 {
 public:
-	ModeManager()
-		: mode(NULL)
-		, nextMode(NULL)
-	{}
+	ModeManager();
 	
 	void scan();
 	void update();

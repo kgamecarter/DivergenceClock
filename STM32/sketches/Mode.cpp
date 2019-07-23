@@ -13,6 +13,13 @@ Modes Mode::getMode()
 	return Modes::TEST_MODE;
 }
 
+ModeManager::ModeManager()
+		: mode(NULL)
+		, nextMode(NULL)
+		, modes { NULL }
+{
+}
+
 void ModeManager::scan()
 {
 	if (this->nextMode != NULL)
@@ -21,6 +28,7 @@ void ModeManager::scan()
 		this->mode = this->nextMode;
 		this->nextMode = NULL;
 		this->mode->onEnter();
+		return;
 	}
 	if (this->mode != NULL)
 		this->mode->scan();
@@ -63,7 +71,7 @@ void ModeManager::addMode(Modes m, Mode* mode)
 
 void ModeManager::setMode(Modes m)
 {
-	if (m >= MODES_COUNT)
+	if (m >= MODES_COUNT || modes[m] == NULL)
 	{
 		Serial.print("Invalid mode ");
 		Serial.println((uint32_t)m);
