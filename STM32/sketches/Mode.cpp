@@ -7,6 +7,11 @@ Mode::Mode(Modes m, ModeManager* manager, Display* display)
 	manager->addMode(m, this);
 }
 
+void Mode::scan()
+{
+	this->display->scan(this->buffer);
+}
+
 ModeManager::ModeManager()
 		: mode(NULL)
 		, nextMode(NULL)

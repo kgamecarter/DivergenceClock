@@ -8,11 +8,12 @@
 
 class ModeManager;
 
-#define MODES_COUNT 1
+#define MODES_COUNT 2
 
 enum Modes : uint32_t
 {
-	TEST_MODE
+	TEST_MODE,
+	STOPWATCH_MODE
 };
 
 class Mode
@@ -21,7 +22,7 @@ public:
 	Mode(Modes m, ModeManager* manager, Display* display);
 	
 	virtual Modes getMode() = 0;
-	virtual void scan() = 0;
+	virtual void scan();
 	virtual void update() = 0;
 	virtual void button1Press() = 0;
 	virtual void button2Press() = 0;
@@ -32,6 +33,7 @@ public:
 protected:
 	ModeManager* manager;
 	Display* display;
+	uint8_t buffer[8];
 private:
 	
 };

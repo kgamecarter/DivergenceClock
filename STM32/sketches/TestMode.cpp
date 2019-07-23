@@ -13,11 +13,6 @@ Modes TestMode::getMode()
 	return Modes::TEST_MODE;
 }
 
-void TestMode::scan()
-{
-	this->display->scan(this->buffer);
-}
-
 void TestMode::update()
 {
 	uint32_t t = millis();
@@ -31,17 +26,17 @@ void TestMode::update()
 		
 	delay(100);
 }
-	
+
 void TestMode::button1Press()
 {
 	this->btn1();
 }
-	
+
 void TestMode::button2Press()
 {
 	this->btn2();
 }
-	
+
 void TestMode::button3Press()
 {
 	digitalWrite(LED_BUILTIN, LOW);

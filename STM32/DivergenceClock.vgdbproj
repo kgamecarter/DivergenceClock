@@ -23,6 +23,7 @@
         <string>sketches\Display.h</string>
         <string>sketches\Mode.h</string>
         <string>sketches\TestMode.h</string>
+        <string>sketches\StopwatchMode.h</string>
       </OtherFiles>
     </ProjectModeSettings>
   </Project>

@@ -14,6 +14,7 @@
 #include "Display.h"
 #include "Mode.h"
 #include "TestMode.h"
+#include "StopwatchMode.h"
 
 #define UART_BAUD 9600
 
@@ -62,6 +63,7 @@ void printTime();
 void printTemp();
 
 TestMode testMode(&manager, &display, &isd, printTime, printTemp);
+StopwatchMode stopwatchMode(&manager, &display);
 
 void setup()
 {
@@ -116,7 +118,7 @@ void setup()
 	printTemp();
 	digitalWrite(LED_BUILTIN, HIGH);
 	
-	manager.setMode(Modes::TEST_MODE);
+	manager.setMode(Modes::STOPWATCH_MODE);
 	
 	Scheduler.startLoop(scanButtonLoop);
 	Scheduler.startLoop([]() -> void
