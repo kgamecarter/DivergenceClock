@@ -11,7 +11,7 @@ class ModeManager;
 
 #define MODES_COUNT 1
 
-enum Modes : uint8_t
+enum Modes : uint32_t
 {
 	TEST_MODE
 };
@@ -19,17 +19,17 @@ enum Modes : uint8_t
 class Mode
 {
 public:
-	Mode(ModeManager* manager, Display* display)
-		: manager(manager)
-		, display(display)
-	{ }
+	Mode(ModeManager* manager, Display* display);
 	
+	virtual Modes getMode();
 	virtual void scan() = 0;
 	virtual void update() = 0;
 	virtual void button1Press() = 0;
 	virtual void button2Press() = 0;
 	virtual void button3Press() = 0;
-
+	virtual void onEnter() {}
+	virtual void onExit() {}
+	
 protected:
 	ModeManager* manager;
 	Display* display;
@@ -41,67 +41,17 @@ class ModeManager
 {
 public:
 	ModeManager()
-		: mode(0)
-		, nextMode(0)
-	{ }
+		: mode(NULL)
+		, nextMode(NULL)
+	{}
 	
-	void scan()
-	{
-		if (this->nextMode != NULL)
-		{
-			// TODO change mode
-			this->mode = this->nextMode;
-			this->nextMode = NULL;
-		}
-		if (this->mode != NULL)
-			this->mode->scan();
-	}
-	
-	void update()
-	{
-		if (this->mode != NULL)
-			this->mode->update();
-	}
-	
-	void button1Press()
-	{
-		if (this->mode != NULL)
-			this->mode->button1Press();
-	}
-	
-	void button2Press()
-	{
-		if (this->mode != NULL)
-			this->mode->button2Press();
-	}
-	
-	void button3Press()
-	{
-		if (this->mode != NULL)
-			this->mode->button3Press();
-	}
-	
-	void addMode(Modes m, Mode* mode)
-	{
-		if (m >= MODES_COUNT)
-		{
-			Serial.print("Invalid mode ");
-			Serial.println((uint8_t)m);
-			return;
-		}
-		this->modes[m] = mode;
-	}
-	
-	void setMode(Modes m)
-	{
-		if (m >= MODES_COUNT)
-		{
-			Serial.print("Invalid mode ");
-			Serial.println((uint8_t)m);
-			return;
-		}
-		this->nextMode = modes[m];
-	}
+	void scan();
+	void update();
+	void button1Press();
+	void button2Press();
+	void button3Press();
+	void addMode(Modes m, Mode* mode);
+	void setMode(Modes m);
 	
 private:
 	Mode* modes[MODES_COUNT];
@@ -118,23 +68,24 @@ public:
 		, isd(isd)
 		, btn1(btn1)
 		, btn2(btn2)
-	{ }
+	{}
+	
+	virtual Modes getMode()
+	{ return Modes::TEST_MODE; }
 	
 	virtual void scan()
-	{
-		this->display->scan(buffer);
-	}
+	{ this->display->scan(this->buffer); }
 	
 	virtual void update()
 	{
-		auto t = millis();
+		uint32_t t = millis();
 		t /= 100;
-		uint8_t v = t % 10;
-		for (uint8_t i = 0; i < 8; i++)
-			buffer[i] = v;
+		uint32_t v = t % 10;
+		for (uint32_t i = 0; i < 8; i++)
+			this->buffer[i] = (v + i) % 10;
 		
-		uint8_t p = t % 16;
-		buffer[p / 2] |= p & 1 ? L_DOT : R_DOT;
+		uint32_t p = t % 16;
+		this->buffer[p / 2] |= p & 1 ? L_DOT : R_DOT;
 		
 		delay(100);
 	}

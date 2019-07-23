@@ -1,17 +1,6 @@
 #include "ISD4004.h"
 
 #define ISD_DELAY 1
-//========ISD4004指令定義========================
-#define POWER_UP  (uint8_t)0x20 //上電指令
-#define SET_PLAY  (uint8_t)0xE0 //指定放音指令
-#define PLAY      (uint8_t)0xF0 //當前放音指令
-#define SET_REC   (uint8_t)0xA0 //指定錄音指令
-#define REC       (uint8_t)0xB0 //當前錄音指令
-#define SET_MC    (uint8_t)0xE8 //指定快進指令
-#define MC        (uint8_t)0xF8 //快進執行指令
-#define STOP      (uint8_t)0x30 //停止當前操作
-#define STOP_WRDN (uint8_t)0x10 //停止當前操作並掉電
-#define RINT      (uint8_t)0x30 //讀狀態:OVF和EOM
 
 void ISD4004::begin()
 {
@@ -25,30 +14,30 @@ void ISD4004::begin()
 }
 
 void ISD4004::stop()
-{ this->sendCommand(STOP); }
+{ this->sendCommand(ISD_STOP); }
 
 void ISD4004::powerUp()
-{ this->sendCommand(POWER_UP); }
+{ this->sendCommand(ISD_POWER_UP); }
 
 void ISD4004::powerDown()
-{ this->sendCommand(STOP_WRDN); }
+{ this->sendCommand(ISD_STOP_WRDN); }
 
 void ISD4004::play()
-{ this->sendCommand(PLAY); }
+{ this->sendCommand(ISD_PLAY); }
 
 void ISD4004::setPlay(uint16_t address)
 {
 	this->spiSend(address);
-	this->sendCommand(SET_PLAY);
+	this->sendCommand(ISD_SET_PLAY);
 }
 
 void ISD4004::rec()
-{ this->sendCommand(REC); }
+{ this->sendCommand(ISD_REC); }
 
 void ISD4004::setRec(uint16_t address)
 {
 	this->spiSend(address);
-	this->sendCommand(SET_REC);
+	this->sendCommand(ISD_SET_REC);
 }
 
 bool ISD4004::checkIsdOverflow()
@@ -99,9 +88,7 @@ void ISD4004::spiSend(uint16_t data)
 {
 	register uint8_t* ptr = (uint8_t*)&data;
 	this->spiSend(ptr[0]);
-	delayMicroseconds(ISD_DELAY);
 	this->spiSend(ptr[1]);
-	delayMicroseconds(ISD_DELAY);
 }
 
 void ISD4004::sendCommand(uint8_t cmd)
@@ -110,8 +97,4 @@ void ISD4004::sendCommand(uint8_t cmd)
 	delayMicroseconds(ISD_DELAY);  // Tssh
 	digitalWrite(this->ss, HIGH);
 	delayMicroseconds(ISD_DELAY);  // Tssmin
-}
-
-ISD4004::~ISD4004()
-{
 }
