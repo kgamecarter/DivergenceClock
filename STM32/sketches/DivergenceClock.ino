@@ -13,6 +13,7 @@
 #include "ISD4004.h"
 #include "Display.h"
 #include "Mode.h"
+#include "TestMode.h"
 
 #define UART_BAUD 9600
 
