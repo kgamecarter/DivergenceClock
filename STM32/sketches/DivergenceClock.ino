@@ -172,7 +172,7 @@ void printTemp()
 	if (tempC != DEVICE_DISCONNECTED_C) 
 	{
 		Serial.println(tempC);
-	} 
+	}
 	else
 	{
 		Serial.println("Error");

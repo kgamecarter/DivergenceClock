@@ -18,9 +18,9 @@ enum Modes : uint32_t
 class Mode
 {
 public:
-	Mode(ModeManager* manager, Display* display);
+	Mode(Modes m, ModeManager* manager, Display* display);
 	
-	virtual Modes getMode();
+	virtual Modes getMode() = 0;
 	virtual void scan() = 0;
 	virtual void update() = 0;
 	virtual void button1Press() = 0;

@@ -10,12 +10,12 @@ class TestMode
 public:
 	TestMode(ModeManager* manager, Display* display, ISD4004* isd, std::function<void(void)> btn1, std::function<void(void)> btn2);
 	
-	virtual Modes getMode();
-	virtual void scan();
-	virtual void update();
-	virtual void button1Press();
-	virtual void button2Press();
-	virtual void button3Press();
+	Modes getMode() override;
+	void scan() override;
+	void update() override;
+	void button1Press() override;
+	void button2Press() override;
+	void button3Press() override;
 
 private:
 	ISD4004* isd;

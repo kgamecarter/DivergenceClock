@@ -1,7 +1,7 @@
 #include "TestMode.h"
 
 TestMode::TestMode(ModeManager* manager, Display* display, ISD4004* isd, std::function<void(void)> btn1, std::function<void(void)> btn2)
-	: Mode(manager, display)
+	: Mode(this->getMode(), manager, display)
 	, isd(isd)
 	, btn1(btn1)
 	, btn2(btn2)

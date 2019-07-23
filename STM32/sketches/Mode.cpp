@@ -1,16 +1,10 @@
 #include "Mode.h"
 
-Mode::Mode(ModeManager* manager, Display* display)
+Mode::Mode(Modes m, ModeManager* manager, Display* display)
 	: manager(manager)
 	, display(display)
 {
-	manager->addMode(this->getMode(), this);
-}
-
-Modes Mode::getMode()
-{ 
-	Serial.println("getMode() not implemented.");
-	return Modes::TEST_MODE;
+	manager->addMode(m, this);
 }
 
 ModeManager::ModeManager()
@@ -24,7 +18,8 @@ void ModeManager::scan()
 {
 	if (this->nextMode != NULL)
 	{
-		this->mode->onExit();
+		if (this->mode != NULL)
+			this->mode->onExit();
 		this->mode = this->nextMode;
 		this->nextMode = NULL;
 		this->mode->onEnter();
