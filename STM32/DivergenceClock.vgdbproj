@@ -24,6 +24,7 @@
         <string>sketches\Mode.h</string>
         <string>sketches\TestMode.h</string>
         <string>sketches\StopwatchMode.h</string>
+        <string>sketches\hal_conf_extra.h</string>
       </OtherFiles>
     </ProjectModeSettings>
   </Project>
