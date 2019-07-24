@@ -1,3 +1,5 @@
+#include <Arduino.h>
+
 #include "Display.h"
 
 Display::Display(const uint8_t* _selPins, const uint8_t* _lightPins)

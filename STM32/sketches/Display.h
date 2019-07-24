@@ -1,6 +1,6 @@
 #pragma once
 
-#include <Arduino.h>
+#include <cstdint>
 
 #define R_DOT     0x10
 #define L_DOT     0x20

@@ -1,5 +1,7 @@
 #include "StopwatchMode.h"
 
+#include <Arduino.h>
+
 #define SW_DELAY 33
 
 StopwatchMode::StopwatchMode(ModeManager* manager, Display* display)

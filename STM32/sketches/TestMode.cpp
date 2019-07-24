@@ -1,5 +1,7 @@
 #include "TestMode.h"
 
+#include <Arduino.h>
+
 TestMode::TestMode(ModeManager* manager, Display* display, ISD4004* isd, std::function<void(void)> btn1, std::function<void(void)> btn2)
 	: Mode(this->getMode(), manager, display)
 	, isd(isd)

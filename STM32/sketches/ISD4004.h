@@ -1,6 +1,7 @@
 #pragma once
 
-#include <Arduino.h>
+#include <cstdint>
+
 //========ISD4004指令定義========================
 #define ISD_POWER_UP  (uint8_t)0x20 //上電指令
 #define ISD_SET_PLAY  (uint8_t)0xE0 //指定放音指令

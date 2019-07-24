@@ -1,8 +1,5 @@
 #pragma once
 
-#include <stddef.h>
-#include <Arduino.h>
-
 #include "Display.h"
 #include "ISD4004.h"
 

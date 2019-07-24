@@ -1,5 +1,7 @@
 #include "Mode.h"
 
+#include <Arduino.h>
+
 Mode::Mode(Modes m, ModeManager* manager, Display* display)
 	: manager(manager)
 	, display(display)

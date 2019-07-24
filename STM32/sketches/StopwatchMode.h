@@ -1,7 +1,5 @@
 #pragma once
 
-#include <Arduino.h>
-
 #include "Mode.h"
 
 class StopwatchMode

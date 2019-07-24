@@ -1,5 +1,7 @@
 #include "ISD4004.h"
 
+#include <Arduino.h>
+
 #define ISD_DELAY 1
 
 void ISD4004::begin()
