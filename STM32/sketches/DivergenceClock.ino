@@ -15,6 +15,7 @@
 #include "Mode.h"
 #include "TestMode.h"
 #include "StopwatchMode.h"
+#include "TemperatureMode.h"
 
 #define UART_BAUD 9600
 
@@ -64,6 +65,7 @@ void printTemp();
 
 TestMode testMode(&manager, &display, &isd, printTime, printTemp);
 StopwatchMode stopwatchMode(&manager, &display);
+TemperatureMode temperatureMode(&manager, &display, &sensors);
 
 void setup()
 {
@@ -111,6 +113,7 @@ void setup()
 	sensors.begin();
 	sensors.setWaitForConversion(false);
 	sensors.getAddress(tempSensorAddress, 0);
+	temperatureMode.setAddress(tempSensorAddress);
 	
 	Serial.begin(UART_BAUD);
 	Serial.println("Ready");
@@ -118,7 +121,7 @@ void setup()
 	printTemp();
 	digitalWrite(LED_BUILTIN, HIGH);
 	
-	manager.setMode(Modes::STOPWATCH_MODE);
+	manager.setMode(Modes::TEMPERATURE_MODE);
 	
 	Scheduler.startLoop(scanButtonLoop);
 	Scheduler.startLoop([]() -> void

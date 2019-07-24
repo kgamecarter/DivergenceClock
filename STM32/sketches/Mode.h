@@ -5,12 +5,13 @@
 
 class ModeManager;
 
-#define MODES_COUNT 2
+#define MODES_COUNT 3
 
 enum Modes : uint32_t
 {
 	TEST_MODE,
-	STOPWATCH_MODE
+	STOPWATCH_MODE,
+	TEMPERATURE_MODE
 };
 
 class Mode
