@@ -123,7 +123,19 @@ void setup()
 	
 	manager.setMode(Modes::TEMPERATURE_MODE);
 	
-	Scheduler.startLoop(scanButtonLoop);
+	Scheduler.startLoop([]() -> void
+	{
+		btn1.read();
+		if (btn1.wasPressed())
+			manager.button1Press();
+		btn2.read();
+		if (btn2.wasPressed())
+			manager.button2Press();
+		btn3.read();
+		if (btn3.wasPressed())
+			manager.button3Press();
+		delay(5);
+	});
 	Scheduler.startLoop([]() -> void
 	{
 		manager.update();
@@ -136,20 +148,6 @@ void loop()
 	IWatchdog.reload();
 	manager.scan();
 	yield();
-}
-
-void scanButtonLoop()
-{
-	btn1.read();
-	btn2.read();
-	btn3.read();
-	if (btn1.wasPressed())
-		manager.button1Press();
-	if (btn2.wasPressed())
-		manager.button2Press();
-	if (btn3.wasPressed())
-		manager.button3Press();
-	delay(5);
 }
 
 void printTime()
